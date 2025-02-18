@@ -9,7 +9,7 @@ from lms.serializers import CourseSerializer, LessonSerializer
 
 
 class HomePageView(TemplateView):
-    template_name = "base.html"
+    template_name = "home.html"
 
 
 class CourseViewSet(ModelViewSet):
@@ -38,4 +38,3 @@ class LessonUpdateApiView(UpdateAPIView):
 
 class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
-

@@ -2,22 +2,9 @@ from django.db import models
 
 
 class Course(models.Model):
-    title = models.CharField(
-        max_length=100,
-        verbose_name="название курса",
-    )
-    description = models.TextField(
-        max_length=250,
-        verbose_name="описание курса",
-        blank=True,
-        null=True,
-    )
-    preview = models.ImageField(
-        upload_to="lms/previews",
-        verbose_name="превью",
-        blank=True,
-        null=True,
-    )
+    title = models.CharField(max_length=100, verbose_name="Название курса")
+    description = models.TextField(max_length=250, verbose_name="Описание курса", blank=True, null=True)
+    preview = models.ImageField(upload_to="lms/previews", verbose_name="Превью", blank=True, null=True)
 
     class Meta:
         verbose_name = "Курс"
@@ -28,34 +15,11 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
-    title = models.CharField(
-        max_length=100,
-        verbose_name="название урока",
-    )
-    description = models.TextField(
-        max_length=250,
-        verbose_name="описание урока",
-        blank=True,
-        null=True,
-    )
-    picture = models.ImageField(
-        upload_to="lms/pictures",
-        verbose_name="картинка",
-        blank=True,
-        null=True,
-    )
-    course = models.ForeignKey(
-        Course,
-        on_delete=models.CASCADE,
-        verbose_name="курс",
-        related_name="lesson_set",
-    )
-    video_url = models.URLField(
-        max_length=200,
-        blank=True,
-        null=True,
-        verbose_name="ссылка на видео",
-    )
+    title = models.CharField(max_length=100, verbose_name="Название урока")
+    description = models.TextField(max_length=250, verbose_name="Описание урока", blank=True, null=True)
+    picture = models.ImageField(upload_to="lms/pictures", verbose_name="Изображение", blank=True, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lesson_set")
+    video_url = models.URLField(max_length=200, blank=True, null=True, verbose_name="Ссылка на видео")
 
     class Meta:
         verbose_name = "Урок"
