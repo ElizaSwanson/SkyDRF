@@ -31,9 +31,8 @@ class UserManager(BaseUserManager):
 
 
 class Users(AbstractUser):
-    username = None
+    username = models.CharField(max_length=150, unique=True, blank=True, null=True)
     email = models.EmailField(unique=True, verbose_name="почта")
-
     phone = models.CharField(max_length=35, verbose_name="телефон", blank=True, null=True)
     avatar = models.ImageField(upload_to="users/avatars", verbose_name="аватар", blank=True, null=True)
     town = models.CharField(max_length=50,verbose_name="город", blank=True, null=True)

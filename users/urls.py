@@ -1,13 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .apps import UsersConfig
-from .views import PaymentViewSet, UserCreateAPIView
+from .views import PaymentList, UserCreateAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
 
 app_name = UsersConfig.name
 
 router = DefaultRouter()
-router.register(r'payments', PaymentViewSet)
+router.register(r'payment', PaymentList)
 from users.views import UserCreateAPIView
 
 urlpatterns = [
