@@ -1,0 +1,23 @@
+[
+{
+    "model": "users.users",
+    "pk": 1,
+    "fields": {
+        "password": "4568093h",
+        "last_login": "2025-03-20T16:48:12Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-03-20T16:48:05Z",
+        "username": "TEST",
+        "email": "rorkefile@mail.ru",
+        "phone": null,
+        "avatar": "",
+        "town": null,
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]
