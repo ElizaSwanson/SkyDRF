@@ -6,7 +6,7 @@ from .models import Course, Lesson
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ["title"]
+        fields = "__all__"
 
 
 class CourseSerializer(serializers.ModelSerializer):

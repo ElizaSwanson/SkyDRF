@@ -1,6 +1,6 @@
 import generics
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, permissions
 from rest_framework import filters
 from tutorial.quickstart.serializers import UserSerializer
 
@@ -24,6 +24,11 @@ class PaymentList(generics.ListAPIView):
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserSerializer
     queryset = Users.objects.all()
+
+    def get_permissions(self):
+        if self.action in ["create", "list"]:
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
 
     def perform_create(self, serializer):
         user = serializer.save(is_active=True)
