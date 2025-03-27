@@ -2,9 +2,10 @@ from django.views.generic import TemplateView
 from rest_framework.generics import (CreateAPIView, DestroyAPIView,
                                      ListAPIView, RetrieveAPIView,
                                      UpdateAPIView)
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from lms import permissions
+from rest_framework import permissions, status
 from lms.models import Course, Lesson
 from lms.permissions import IsModerator
 from lms.serializers import CourseSerializer, LessonSerializer
@@ -22,7 +23,7 @@ class CourseViewSet(ModelViewSet):
         if self.action in ["create", "destroy"]:
             return [permissions.IsAdminUser()]
         elif self.action in ["list", "retrieve", "update"]:
-            return [IsModerator() | permissions.IsAuthenticated()]
+            return [permissions.OR(IsModerator(), permissions.IsAuthenticated())]
         return super().get_permissions()
 
     def get_queryset(self):
@@ -43,7 +44,7 @@ class LessonViewSet(ModelViewSet):
         if self.action in ["create", "destroy"]:
             return [permissions.IsAdminUser()]
         elif self.action in ["list", "retrieve", "update"]:
-            return [IsModerator() | permissions.IsAuthenticated()]
+            return [permissions.OR(IsModerator(), permissions.IsAuthenticated())]
         return super().get_permissions()
 
     def get_queryset(self):
@@ -57,6 +58,10 @@ class LessonViewSet(ModelViewSet):
 
 class LessonCreateApiView(CreateAPIView):
     serializer_class = LessonSerializer
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 
 class LessonListApiView(ListAPIView):

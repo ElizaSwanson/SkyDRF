@@ -8,6 +8,11 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = "__all__"
 
+    def create(self, validated_data):
+        request = self.context.get('request')
+        validated_data['owner'] = request.user
+        return super().create(validated_data)
+
 
 class CourseSerializer(serializers.ModelSerializer):
     count_of_lessons = serializers.SerializerMethodField()
@@ -19,6 +24,11 @@ class CourseSerializer(serializers.ModelSerializer):
     def get_info_lessons(self, obj):
         lessons = obj.lesson_set.all()
         return LessonSerializer(lessons, many=True).data
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        validated_data['owner'] = request.user
+        return super().create(validated_data)
 
     class Meta:
         model = Course
