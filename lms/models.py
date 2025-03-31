@@ -9,6 +9,7 @@ class Course(models.Model):
     preview = models.ImageField(upload_to="lms/previews", verbose_name="Превью", blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Автор курса",
                               related_name="courses", null=True, blank=True)
+    price = models.DecimalField(max_digits=10, null=True, blank=True, verbose_name="Цена", decimal_places=2)
 
     class Meta:
         verbose_name = "Курс"
@@ -26,6 +27,7 @@ class Lesson(models.Model):
     video_url = models.URLField(max_length=200, blank=True, null=True, verbose_name="Ссылка на видео")
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Автор урока",
                               related_name="lessons", null=True, blank=True)
+    price = models.DecimalField(max_digits=10, null=True, blank=True, verbose_name="Цена", decimal_places=2)
 
     class Meta:
         verbose_name = "Урок"

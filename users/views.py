@@ -1,12 +1,16 @@
 import generics
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, generics, permissions
+from requests import Response
+from rest_framework import viewsets, generics, permissions, status
 from rest_framework import filters
 from tutorial.quickstart.serializers import UserSerializer
 
+from lms.models import Course, Lesson
 from .models import Payment, Users
 from .serializers import PaymentSerializer
 from rest_framework.generics import CreateAPIView
+
+from .utils import create_product_course, create_price, create_product_lesson, create_checkout_session
 
 
 class PaymentList(generics.ListAPIView):
@@ -34,3 +38,42 @@ class UserCreateAPIView(CreateAPIView):
         user = serializer.save(is_active=True)
         user.set_password(user.password)
         user.save()
+
+class PaymentCreateAPIView(generics.CreateAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        global price, product_price
+        product_type = serializer.validated_data['product_type']
+        product_id = serializer.validated_data['product_id']
+        if product_type == 'course':
+            product = Course.objects.get(id=product_id)
+            product_title = product.title
+            product_price = product.price
+            stripe_product = create_product_course(product_title)
+            price = create_price(stripe_product.id, product_price)
+
+            product.stripe_price_id = price.id
+            product.save()
+
+        elif product_type == 'lesson':
+            product = Lesson.objects.get(id=product_id)
+            product_title = product.title
+            product_price = product.price
+            stripe_product = create_product_lesson(product_title)
+            price = create_price(stripe_product.id, product_price)
+
+            product.stripe_price_id = price.id
+            product.save()
+
+        session = create_checkout_session(price.id)
+
+        payment = serializer.save(
+            user=self.request.user,
+            amount=product_price,
+            session_id=session.id,
+            payment_link=session.url)
+
+        return Response({'checkout_url': session.url,'payment_id': payment.id}, status=status.HTTP_201_CREATED)
