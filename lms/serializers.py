@@ -22,13 +22,6 @@ class CourseSerializer(serializers.ModelSerializer):
     info_lessons = serializers.SerializerMethodField()
     is_subscribed = serializers.SerializerMethodField()
 
-    def get_count_of_lessons(self, obj):
-        return obj.lesson_set.count()
-
-    def get_info_lessons(self, obj):
-        lessons = obj.lesson_set.all()
-        return LessonSerializer(lessons, many=True).data
-
     def create(self, validated_data):
         request = self.context.get('request')
         validated_data['owner'] = request.user
@@ -40,4 +33,4 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ("title", "description", "preview", "count_of_lessons", "info_lessons")
+        fields = "__all__"

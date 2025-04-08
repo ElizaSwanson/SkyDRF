@@ -25,7 +25,7 @@ class CourseViewSet(ModelViewSet):
         if self.action in ["create", "destroy"]:
             return [permissions.IsAdminUser()]
         elif self.action in ["list", "retrieve", "update"]:
-            return [permissions.OR(IsModerator(), permissions.IsAuthenticated())]
+            return [permissions.OR(IsModerator(), IsAuthenticated())]
         return super().get_permissions()
 
     def get_queryset(self):
@@ -46,7 +46,7 @@ class LessonViewSet(ModelViewSet):
         if self.action in ["create", "destroy"]:
             return [permissions.IsAdminUser()]
         elif self.action in ["list", "retrieve", "update"]:
-            return [permissions.OR(IsModerator(), permissions.IsAuthenticated())]
+            return [permissions.OR(IsModerator(), IsAuthenticated())]
         return super().get_permissions()
 
     def get_queryset(self):
@@ -75,30 +75,3 @@ class SubscriptionView(APIView):
             message = "Подписка добавлена"
 
         return Response({"message": message})
-
-
-class LessonCreateApiView(CreateAPIView):
-    serializer_class = LessonSerializer
-
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super().form_valid(form)
-
-
-class LessonListApiView(ListAPIView):
-    serializer_class = LessonSerializer
-    queryset = Lesson.objects.all()
-
-
-class LessonRetrieveApiView(RetrieveAPIView):
-    serializer_class = LessonSerializer
-    queryset = Lesson.objects.all()
-
-
-class LessonUpdateApiView(UpdateAPIView):
-    serializer_class = LessonSerializer
-    queryset = Lesson.objects.all()
-
-
-class LessonDestroyApiView(DestroyAPIView):
-    queryset = Lesson.objects.all()

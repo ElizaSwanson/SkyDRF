@@ -8,7 +8,7 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="API Documentation SkyDRF",
+        title="APIDocumentationSkyDRF",
         default_version='v1',
         description="Homework",
         terms_of_service="https://www.example.com/policies/terms/",
