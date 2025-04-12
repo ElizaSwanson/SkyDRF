@@ -13,3 +13,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Автоматическое обнаружение и регистрация задач из файлов tasks.py в приложениях Django
 app.autodiscover_tasks()
+
+app.conf.broker_connection_retry_on_startup = True
+
+app.conf.result_backend = 'django-db'
