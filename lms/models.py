@@ -10,6 +10,7 @@ class Course(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Автор курса",
                               related_name="courses", null=True, blank=True)
     price = models.DecimalField(max_digits=10, null=True, blank=True, verbose_name="Цена", decimal_places=2)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Курс"

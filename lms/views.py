@@ -77,3 +77,19 @@ class SubscriptionView(APIView):
             send_email_task.delay(user.email, subject, email_message)
 
         return Response({"message": message})
+
+
+class CourseUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        course_id = request.data.get("cource_id")
+        course_item = get_object_or_404(Course, id=course_id)
+        subscribers = Subscription.objects.filter(course=course_item)
+        subject = "Обновление курса"
+        email_message = f"Курс {course_item.title} был обновлен."
+
+        for subscription in subscribers:
+            send_email_task.delay(subscription.user.email, subject, email_message)
+
+        return Response({"message": "Курс успешно обновлен и уведомления отправлены."})

@@ -210,7 +210,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
     'task-name': {
-        'task': 'materials.deactivate_inactive_users',
+        'task': 'lms.tasks.deactivate_inactive_users',
         'schedule': timedelta(days=1),
     },
 }
