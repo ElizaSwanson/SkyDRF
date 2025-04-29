@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   db:
-    image: postgres:17
+    image: postgres
     environment:
       POSTGRES_DB: ${NAME}
       POSTGRES_USER: ${USER}
@@ -22,8 +22,6 @@ services:
     depends_on:
       - db
     env_file: .env
-    environment:
-      DATABASE_URL: postgres://{USER}:{PASSWORD}@db:5432/{NAME}
 
   redis:
     image: redis:alpine
