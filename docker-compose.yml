@@ -20,7 +20,7 @@ services:
       POSTGRES_DB: ${NAME}
       POSTGRES_USER: ${USER}
       POSTGRES_PASSWORD: ${PASSWORD}
-      POSTGRES_HOST: db
+      POSTGRES_HOST: ${HOST}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
