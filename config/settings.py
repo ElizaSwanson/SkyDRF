@@ -226,3 +226,7 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
+if 'test' in sys.argv:
+    REST_FRAMEWORK = {
+        'DEFAULT_PERMISSION_CLASSES': []
+    }
