@@ -192,14 +192,14 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:8000',
     'http://localhost:8080',
-    'http://51.250.25.183/'
+    '51.250.25.183'
 ]
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
     'http://localhost:8080',
-    'http://51.250.25.183/'
+    '51.250.25.183'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
