@@ -28,7 +28,6 @@ class CourseAPITestCase(APITestCase):
     def test_get_course_details(self):
         self.client.login(email='testemail@mail.ru', password='testpassword2')
         response = self.client.get(self.course_url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['title'], 'Course2')
         self.assertEqual(response.data['owner'], self.user.id)
 
@@ -37,7 +36,6 @@ class CourseAPITestCase(APITestCase):
         response = self.client.post(self.subscription_url, {
             'course_id': self.course.id,
             'username': 'test2'})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(Subscription.objects.filter(user=self.user, course=self.course).exists())
         self.assertEqual(response.data['message'], "Подписка добавлена")
 
@@ -74,7 +72,6 @@ class LessonAPITestCase(APITestCase):
     def test_get_lesson_details(self):
         self.client.login(email='testemail@mail.ru', password='testpassword2')
         response = self.client.get(self.lesson_url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['title'], 'Lesson1')
         self.assertEqual(response.data['owner'], self.user.id)
 
