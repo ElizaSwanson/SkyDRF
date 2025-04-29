@@ -18,8 +18,8 @@ class CourseAPITestCase(APITestCase):
             'description': 'Desc',
             'owner': self.user}
         self.course = Course.objects.create(**self.course_data)
-        self.course_url = reverse('materials:course-detail', args=[self.course.id])
-        self.subscription_url = reverse('materials:subscription')
+        self.course_url = reverse('lms:course-detail', args=[self.course.id])
+        self.subscription_url = reverse('lms:subscription')
 
     def test_course_creation(self):
         self.assertEqual(Course.objects.count(), 1)
@@ -65,7 +65,7 @@ class LessonAPITestCase(APITestCase):
         }
         self.lesson = Lesson.objects.create(**self.lesson_data)
 
-        self.lesson_url = reverse('materials:lesson-detail', args=[self.lesson.id])
+        self.lesson_url = reverse('lms:lesson-detail', args=[self.lesson.id])
 
     def test_lesson_creation(self):
         self.assertEqual(Lesson.objects.count(), 1)

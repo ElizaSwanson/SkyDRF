@@ -29,7 +29,7 @@ class UserCreateAPIView(CreateAPIView):
     queryset = Users.objects.all()
 
     def get_permissions(self):
-        if self.action in ["create", "list"]:
+        if self.request.method == "POST":
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
 
