@@ -17,6 +17,7 @@ services:
       - ./.env
 
   nginx:
+    image: nginx:latest
     build:
       context: ./nginx
     ports:
