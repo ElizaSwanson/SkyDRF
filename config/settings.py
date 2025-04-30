@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -87,24 +87,16 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if "test" in sys.argv:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "test_db/sqlite3",
-        }
-    }
 
-else:
-    DATABASES = {
+DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("DATABASE_NAME"),
-        'USER': os.getenv("DATABASE_USER"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+        "DATABASE_NAME": os.getenv("DATABASE_NAME"),
+        'DATABASE_USER': os.getenv("DATABASE_USER"),
+        "DATABASE_PASSWORD": os.getenv("DATABASE_PASSWORD"),
         "HOST": os.getenv("HOST"),
         "PORT": os.getenv("PORT"),
-    }
+}
 }
 
 # Password validation
@@ -142,8 +134,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
@@ -227,4 +221,10 @@ CELERY_BEAT_SCHEDULE = {
 if 'test' in sys.argv:
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': []
+    }
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "test_db/sqlite3",
+        }
     }
